@@ -194,7 +194,7 @@ public class Main  {
         int pilihan = sc.nextInt();
         System.out.print("Masukkan ID Pegawai: ");
         int idPegawai = sc.nextInt();
-        System.out.print("Masukkan jumlah hari masuk: ");
+        System.out.print("Masukkan jumlah hari masuk (untuk uang makan): ");
         int hariMasuk = sc.nextInt();
         sc.nextLine();
         switch (pilihan) {

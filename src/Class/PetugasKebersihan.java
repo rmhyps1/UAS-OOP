@@ -42,7 +42,7 @@ public class PetugasKebersihan extends Kebersihan implements hitungGaji {
         }
     }
 
-    public static void ListUserPetugasKebersihan(int jumlahHariMasuk, int idPegawai) {
+    public static void ListUserPetugasKebersihan(int idPegawai, int jumlahHariMasuk) {
         String link = "jdbc:sqlite:Database.db";
         String sql = "SELECT * FROM Pegawai WHERE profesi = ? AND idPegawai = ?";
         try (java.sql.Connection con = java.sql.DriverManager.getConnection(link);
@@ -50,9 +50,7 @@ public class PetugasKebersihan extends Kebersihan implements hitungGaji {
             prstm.setString(1, "Petugas Kebersihan");
             prstm.setInt(2, idPegawai);
             java.sql.ResultSet rs = prstm.executeQuery();
-            int count = 0;
-            while (rs.next()) {
-                count++;
+            if (rs.next()) {
                 System.out.println("===============================================================");
                 System.out.println("ID: " + rs.getInt("idPegawai"));
                 System.out.println("Nama: " + rs.getString("nama"));
@@ -68,9 +66,8 @@ public class PetugasKebersihan extends Kebersihan implements hitungGaji {
                 System.out.println("Uang Makan (" + jumlahHariMasuk + " hari): " + FormatNominal.rupiah(uangMakan));
                 System.out.println("Total Gaji: " + FormatNominal.rupiah(totalGaji));
                 System.out.println("===============================================================");
-            }
-            if (count == 0) {
-                System.out.println("Tidak ada data Petugas Kebersihan ditemukan di database.");
+            } else {
+                System.out.println("Data Petugas Kebersihan dengan ID " + idPegawai + " tidak ditemukan.");
             }
         } catch (Exception e) {
             System.out.println("Error saat mengambil data Petugas Kebersihan: " + e.getMessage());
