@@ -2,6 +2,7 @@ package Class;
 
 import Interfaces.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class GuruHonorer extends Pengajar implements hitungGaji {
@@ -28,7 +29,10 @@ public class GuruHonorer extends Pengajar implements hitungGaji {
                 System.out.println("Nama: " + rs.getString("nama"));
                 System.out.println("No Telp: " + rs.getString("noTelp"));
                 System.out.println("Email: " + rs.getString("email"));
-                System.out.println("Tanggal Masuk: " + rs.getString("tanggalMasuk"));
+                String tanggalDb = rs.getString("tanggalMasuk");
+                LocalDate tanggalMasuk = LocalDate.parse(tanggalDb); 
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                System.out.println("Tanggal Masuk: " + tanggalMasuk.format(formatter));
                 System.out.println("Profesi: " + rs.getString("profesi"));
                 System.out.println("===============================================================");
             }

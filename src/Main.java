@@ -2,6 +2,7 @@ import Class.*;
 import Database.*;
 import Support_Class_.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Main  {
@@ -47,12 +48,19 @@ public class Main  {
                         case 7: profesi = new PetugasPerpus().getRole(); break;
                         default: System.out.println("Pilihan tidak valid."); return;
                     }
-                    System.out.print("Masukkan Tanggal Masuk (YYYY-MM-DD): ");
-                    LocalDate tanggalMasuk = LocalDate.parse(sc.nextLine());
-                    while (tanggalMasuk.isAfter(LocalDate.now())) {
-                        System.out.println("Tanggal masuk tidak boleh di masa depan. Masukkan ulang:");
-                        tanggalMasuk = LocalDate.parse(sc.nextLine());
+
+                    System.out.print("Masukkan Tanggal Masuk (format: DD-MM-YYYY): ");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    LocalDate tanggalMasuk = null;
+                    while (tanggalMasuk == null) {
+                        try {
+                            String inputTanggal = sc.nextLine();
+                            tanggalMasuk = LocalDate.parse(inputTanggal, formatter);
+                        } catch (Exception e) {
+                            System.out.println("Format tanggal salah. Silakan masukkan ulang (format: DD-MM-YYYY): ");
+                        }
                     }
+
                     Pegawai inputDataBaru = new Pegawai(nama, noTlp, email, 0, profesi, profesi, tanggalMasuk);
                     InputDB.simpanData(inputDataBaru);
                     System.out.println("Data berhasil ditambahkan.");
@@ -255,7 +263,10 @@ public class Main  {
                 System.out.println("Nama: " + rs.getString("nama"));
                 System.out.println("No Telp: " + rs.getString("noTelp"));
                 System.out.println("Email: " + rs.getString("email"));
-                System.out.println("Tanggal Masuk: " + rs.getString("tanggalMasuk"));
+                String tanggalDb = rs.getString("tanggalMasuk");
+                LocalDate tanggalMasuk = LocalDate.parse(tanggalDb); 
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                System.out.println("Tanggal Masuk: " + tanggalMasuk.format(formatter));
                 System.out.println("Profesi: " + rs.getString("profesi"));
                 System.out.println("===============================================================");
             } else {
