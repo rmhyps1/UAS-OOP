@@ -1,6 +1,6 @@
 import Class.*;
 import Database.*;
-import Support_Class_.Alamat;
+import Support_Class_.*;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -8,7 +8,6 @@ public class Main  {
     public static void admin(Scanner sc){
         boolean isLogin = false;
         do {
-            System.out.println("\n=====================");
             System.out.println("Menu Admin");
             System.out.println("1. Input Data Pegawai");
             System.out.println("2. Tampilkan Data Pegawai");
@@ -57,8 +56,8 @@ public class Main  {
                     Pegawai inputDataBaru = new Pegawai(nama, noTlp, email, 0, profesi, profesi, tanggalMasuk);
                     InputDB.simpanData(inputDataBaru);
                     System.out.println("Data berhasil ditambahkan.");
-                    System.out.println("Data pegawai saat ini:");
-                    tampilkanSemuaPegawai();
+                    System.out.println("Data pegawai yang baru ditambahkan:");
+                    tampilkanPegawaiTerakhir();
                     break;
                 case 2:
                     System.out.println("Masukkan Profesi Pegawai yang ingin dilihat:");
@@ -171,6 +170,7 @@ public class Main  {
                     System.out.println("Pilihan tidak valid.");
             }
         }while (!isLogin) ;
+        sc.nextLine();
     }
 
     public static void user(Scanner sc){
@@ -188,6 +188,7 @@ public class Main  {
         int idPegawai = sc.nextInt();
         System.out.print("Masukkan jumlah hari masuk: ");
         int hariMasuk = sc.nextInt();
+        sc.nextLine();
         switch (pilihan) {
             case 1:
                 GuruPNS.ListUserGuruPNS(idPegawai, hariMasuk);
@@ -213,13 +214,14 @@ public class Main  {
             default:
                 System.out.println("Pilihan tidak valid.");
         }
+        sc.nextLine();
     }
 
     public static void main(String[] args) {
         Create_Connect.create();
         Scanner sc = new Scanner(System.in);
-        Alamat alamat = new Alamat("Gajayana ", 50, "Lowokwaru ", "Malang ", "Jawa Timur");
-        System.out.print("Alamat: ");
+        Alamat alamat = new AlamatSekolah("Gajayana ", 50, "Lowokwaru ", "Malang ", "Jawa Timur\n");
+        System.out.print("\nAlamat: ");
         alamat.TampilkanAlamat();
         String[] Username = {"admin", "user"};
         String[] Password = {"admin", "user"};
@@ -241,15 +243,14 @@ public class Main  {
         sc.close();
     }
 
-    public static void tampilkanSemuaPegawai() {
+    public static void tampilkanPegawaiTerakhir() {
         String link = "jdbc:sqlite:Database.db";
-        String sql = "SELECT * FROM Pegawai";
+        String sql = "SELECT * FROM Pegawai ORDER BY idPegawai DESC LIMIT 1";
         try (java.sql.Connection con = java.sql.DriverManager.getConnection(link);
-             java.sql.Statement stmt = con.createStatement();
-             java.sql.ResultSet rs = stmt.executeQuery(sql)) {
-            int count = 0;
-            while (rs.next()) {
-                count++;
+            java.sql.Statement stmt = con.createStatement();
+            java.sql.ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                System.out.println("===============================================================");
                 System.out.println("ID: " + rs.getInt("idPegawai"));
                 System.out.println("Nama: " + rs.getString("nama"));
                 System.out.println("No Telp: " + rs.getString("noTelp"));
@@ -257,9 +258,8 @@ public class Main  {
                 System.out.println("Tanggal Masuk: " + rs.getString("tanggalMasuk"));
                 System.out.println("Profesi: " + rs.getString("profesi"));
                 System.out.println("===============================================================");
-            }
-            if (count == 0) {
-                System.out.println("Belum ada data pegawai.");
+            } else {
+                System.out.println("Data tidak ditemukan.");
             }
         } catch (Exception e) {
             System.out.println("Error saat mengambil data pegawai: " + e.getMessage());

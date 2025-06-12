@@ -49,11 +49,11 @@ public class GuruPNS extends Pengajar implements hitungGaji {
             int count = 0;
             while (rs.next()) {
                 count++;
+                System.out.println("===============================================================");
                 System.out.println("ID: " + rs.getInt("idPegawai"));
                 System.out.println("Nama: " + rs.getString("nama"));
                 System.out.println("No Telp: " + rs.getString("noTelp"));
                 System.out.println("Email: " + rs.getString("email"));
-                System.out.println("Tanggal Masuk: " + rs.getString("tanggalMasuk"));
                 System.out.println("Profesi: " + rs.getString("profesi"));
                 double gaji = Interfaces.hitungGaji.hitungGaji_guruPNS();
                 double tunjangan = Interfaces.hitungTunjangan.hitungTunjangan_guruPNS();

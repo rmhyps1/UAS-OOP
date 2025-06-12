@@ -54,7 +54,6 @@ public class GuruHonorer extends Pengajar implements hitungGaji {
                 System.out.println("Nama: " + rs.getString("nama"));
                 System.out.println("No Telp: " + rs.getString("noTelp"));
                 System.out.println("Email: " + rs.getString("email"));
-                System.out.println("Tanggal Masuk: " + rs.getString("tanggalMasuk"));
                 System.out.println("Profesi: " + rs.getString("profesi"));
                 double gaji = Interfaces.hitungGaji.gajiPerhari_guruHonorer * jumlahHariMasuk;
                 double tunjangan = Interfaces.hitungTunjangan.hitungTunjangan_guruHonorer();

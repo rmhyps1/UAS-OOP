@@ -52,7 +52,6 @@ public class TataUsaha extends Staff {
                 System.out.println("Nama: " + rs.getString("nama"));
                 System.out.println("No Telp: " + rs.getString("noTelp"));
                 System.out.println("Email: " + rs.getString("email"));
-                System.out.println("Tanggal Masuk: " + rs.getString("tanggalMasuk"));
                 System.out.println("Profesi: " + rs.getString("profesi"));
                 double gaji = Interfaces.hitungGaji.hitungGaji_tataUsaha();
                 double tunjangan = Interfaces.hitungTunjangan.hitungTunjangan_tataUsaha();
