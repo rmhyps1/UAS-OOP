@@ -4,6 +4,8 @@ import Support_Class_.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class Main  {
     public static void admin(Scanner sc){
@@ -228,26 +230,42 @@ public class Main  {
     public static void main(String[] args) {
         Create_Connect.create();
         Scanner sc = new Scanner(System.in);
+
         Alamat alamat = new AlamatSekolah("Gajayana ", 50, "Lowokwaru ", "Malang ", "Jawa Timur\n");
         System.out.print("\nAlamat: ");
         alamat.TampilkanAlamat();
-        String[] Username = {"admin", "user"};
-        String[] Password = {"admin", "user"};
-        boolean isLogin = false;
-        do {
-            System.out.println("Login Sebagai");
-            System.out.print("Username: ");
-            String username = sc.nextLine();
-            System.out.print("Password: ");
-            String password = sc.nextLine();
-            if (username.equals(Username[0]) && password.equals(Password[0])) {
-                admin(sc);
-            } else if (username.equals(Username[1]) && password.equals(Password[1])) {
-                user(sc);
-            } else {
-                System.out.println(" Login gagal! Username atau password salah.");
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Masukkan username: ");
+        String username = scanner.nextLine().trim();
+        System.out.print("Masukkan password: ");
+        String password = scanner.nextLine().trim();
+        boolean loginSukses = false;
+
+        try (BufferedReader br = new BufferedReader(
+                new FileReader("src/Database/username.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 2) {
+                    String fileUsername = parts[0].trim();
+                    String filePassword = parts[1].trim();
+                    if (username.equals(fileUsername) && password.equals(filePassword)) {
+                        loginSukses = true;
+                        break;
+                    }
+                }
             }
-        }while (!isLogin) ;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (loginSukses) {
+            admin(sc);
+        } else {
+            user(sc);
+        }
+
         sc.close();
     }
 

@@ -9,7 +9,6 @@ public class Create_Connect {
     private static final String DATABASE_URL = "jdbc:sqlite:Database.db";
     private static Connection connection = null;
 
-    // Membuat koneksi dan tabel jika belum ada
     public static Connection create() {
         if (connection == null) {
             try {
@@ -36,7 +35,6 @@ public class Create_Connect {
         return connection;
     }
 
-    // Metode connect() hanya untuk mengembalikan koneksi
     public static Connection connect() {
         if (connection == null) {
             return create();
@@ -44,7 +42,6 @@ public class Create_Connect {
         return connection;
     }
 
-    // Mereset data dan AUTOINCREMENT tabel Pegawai
     public static void resetAutoIncrement() {
         try (Connection con = DriverManager.getConnection(DATABASE_URL);
              Statement stmt = con.createStatement()) {
