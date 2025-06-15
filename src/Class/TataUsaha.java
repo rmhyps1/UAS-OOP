@@ -22,10 +22,15 @@ public class TataUsaha extends Staff {
             int count = 0;
             while (rs.next()) {
                 count++;
+                System.out.println("===============================================================");
                 System.out.println("ID: " + rs.getInt("idPegawai"));
                 System.out.println("Nama: " + rs.getString("nama"));
                 System.out.println("No Telp: " + rs.getString("noTelp"));
                 System.out.println("Email: " + rs.getString("email"));
+                double gaji = Interfaces.hitungGaji.hitungGaji_tataUsaha();
+                double tunjangan = Interfaces.hitungTunjangan.hitungTunjangan_tataUsaha();
+                System.out.println("Gaji: " + FormatNominal.rupiah(gaji));
+                System.out.println("Tunjangan: " + FormatNominal.rupiah(tunjangan));
                 String tanggalDb = rs.getString("tanggalMasuk");
                 LocalDate tanggalMasuk = LocalDate.parse(tanggalDb); 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
